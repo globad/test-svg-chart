@@ -8,3 +8,41 @@ export const Colors = {
     return `rgba(${r} ,${g}, ${b}, ${opacity})`;
   },
 };
+
+export const Polygon = {
+  polygonToSVGPoints(polygon, yMax) {
+    const offset = yMax + 10;
+    return polygon
+      .map(point => `${point[0]},${offset - point[1]}`)
+      .reduce((a, b) => `${a} ${b}`);
+  },
+
+  getPolygonMaxValues(points) {
+    const max = points.reduce((prev, current) => {
+      const xMax = Math.max(prev[0], current[0]);
+      const yMax = Math.max(prev[1], current[1]);
+      return [xMax, yMax];
+    });
+    return {
+      xMax: max[0],
+      yMax: max[1]
+    }
+  },
+
+  calcPolygonSquare(points) {
+    let square = 0;
+    let j = points.length - 1;
+
+    for (let i = 0; i < points.length; i++) {
+      const Xj = points[j][0];
+      const Xi = points[i][0];
+      const Yj = points[j][1];
+      const Yi = points[i][1];
+
+      square = square + (Xj + Xi) * (Yj - Yi);
+      j = i;
+    }
+    square = Math.abs(square / 2);
+    return square;
+  }
+};
