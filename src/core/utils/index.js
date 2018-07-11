@@ -18,15 +18,11 @@ export const Polygon = {
   },
 
   getPolygonMaxValues(points) {
-    const max = points.reduce((prev, current) => {
-      const xMax = Math.max(prev[0], current[0]);
-      const yMax = Math.max(prev[1], current[1]);
-      return [xMax, yMax];
-    });
-    return {
-      xMax: max[0],
-      yMax: max[1]
-    }
+    return points.reduce((prev, current) => {
+      const xMax = Math.max(prev.xMax, current[0]);
+      const yMax = Math.max(prev.yMax, current[1]);
+      return { xMax, yMax };
+    }, { xMax: 0, yMax: 0});
   },
 
   calcPolygonSquare(points) {
